@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang='pl'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1, viewport-fit=cover'>
+<meta name='theme-color' content='#131217'>
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
+<meta name='apple-mobile-web-app-title' content='Wallet Demo'>
+<title>Wallet Demo — portfel krypto (DEMO)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#131217;color:#fff;-webkit-font-smoothing:antialiased}
+#wrap{max-width:430px;margin:0 auto;min-height:100vh;padding-bottom:calc(72px + env(safe-area-inset-bottom));background:#131217}
+.demobar{background:#FFD84D;color:#131217;font-size:10px;font-weight:800;letter-spacing:1.2px;text-align:center;padding:5px}
+#ob{position:fixed;inset:0;max-width:430px;margin:auto;background:linear-gradient(165deg,#1b1532 0%,#131217 60%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;z-index:90}
+#ob .ghost{font-size:64px;margin-bottom:16px}
+#ob h1{font-size:26px;font-weight:800}
+#ob .sub{color:#9b93b8;font-size:14px;margin:10px 0 34px;line-height:1.5}
+.btnP{width:100%;max-width:320px;border:none;border-radius:14px;padding:15px;font-size:16px;font-weight:800;background:#ab9ff2;color:#131217;cursor:pointer;font-family:inherit}
+.btnP:active{transform:scale(.98)}
+#phrase{display:none;flex-direction:column;width:100%;max-width:340px}
+#phrase h2{font-size:19px;margin-bottom:6px}
+#phrase .warn{background:rgba(255,216,77,.12);border:1px solid rgba(255,216,77,.4);color:#FFD84D;font-size:11.5px;border-radius:12px;padding:10px 12px;margin:10px 0 16px;line-height:1.45}
+.wgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
+.wgrid span{background:#1e1b2e;border:1px solid #2c2844;border-radius:10px;padding:9px 4px;font-size:12.5px;color:#cfc8ee}
+.top{display:flex;justify-content:space-between;align-items:center;padding:calc(14px + env(safe-area-inset-top)) 18px 6px}
+.brand{font-size:15px;font-weight:800;color:#cfc8ee}
+.avatar{width:34px;height:34px;border-radius:50%;background:#ab9ff2;color:#131217;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px}
+.balbox{text-align:center;padding:14px 18px 18px}
+.balbox .lbl{font-size:12px;color:#9b93b8}
+.balbox .amt{font-size:38px;font-weight:800;margin-top:4px;letter-spacing:-.5px}
+.addr{display:inline-flex;align-items:center;gap:6px;background:#1e1b2e;border:1px solid #2c2844;color:#cfc8ee;font-size:11.5px;padding:6px 12px;border-radius:16px;margin-top:10px;cursor:pointer}
+.search{margin:2px 18px 14px;background:#1e1b2e;border:1px solid #2c2844;border-radius:14px;padding:11px 14px;color:#9b93b8;font-size:13px}
+.acts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 18px 18px}
+.act{background:rgba(171,159,242,.12);border:1px solid rgba(171,159,242,.25);border:none;border-radius:16px;padding:13px 4px;text-align:center;cursor:pointer;color:#cfc8ee;font-family:inherit}
+.act:active{transform:scale(.95)}
+.act .i{font-size:20px;display:block;margin-bottom:5px}
+.act .l{font-size:10.5px;font-weight:700}
+.sect{padding:6px 18px 10px;font-size:13px;font-weight:800;color:#cfc8ee}
+.tok{display:flex;align-items:center;gap:12px;padding:11px 18px;cursor:pointer}
+.tok .ic{width:40px;height:40px;border-radius:50%;background:#1e1b2e;border:1px solid #2c2844;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.tok .g{flex:1;min-width:0}
+.tok .n{font-size:14.5px;font-weight:700}
+.tok .s{font-size:11.5px;color:#9b93b8}
+.tok .v{text-align:right}
+.tok .va{font-size:14.5px;font-weight:700;white-space:nowrap}
+.tok .vb{font-size:11.5px;color:#9b93b8}
+.view{display:none}
+.view.on{display:block;animation:fade .22s}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.fbox{margin:8px 18px;background:#1e1b2e;border:1px solid #2c2844;border-radius:18px;padding:16px}
+label{display:block;font-size:11px;color:#9b93b8;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin:10px 0 5px}
+label:first-child{margin-top:0}
+input,select{width:100%;background:#131217;border:1.5px solid #2c2844;border-radius:12px;padding:12px 13px;color:#fff;font-size:15px;font-family:inherit;outline:none}
+input:focus,select:focus{border-color:#ab9ff2}
+.rowinfo{display:flex;justify-content:space-between;font-size:12px;color:#9b93b8;margin-top:8px}
+.bk{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:60;display:none}
+.bk.on{display:block}
+.sheet{position:fixed;left:50%;transform:translate(-50%,110%);bottom:0;width:100%;max-width:430px;background:#1e1b2e;border-radius:24px 24px 0 0;padding:22px 18px calc(22px + env(safe-area-inset-bottom));z-index:61;transition:transform .3s}
+.sheet.on{transform:translate(-50%,0)}
+.sheet h3{font-size:17px;margin-bottom:14px}
+.x{float:right;background:none;border:none;color:#9b93b8;font-size:20px;cursor:pointer}
+.addrBig{background:#131217;border:1.5px solid #2c2844;border-radius:12px;padding:12px;font-size:12px;word-break:break-all;color:#cfc8ee;line-height:1.5;margin-bottom:12px}
+#qr{display:block;margin:0 auto 14px;border-radius:12px}
+.spin{width:50px;height:50px;border:4px solid #2c2844;border-top-color:#ab9ff2;border-radius:50%;animation:sp 1s linear infinite;margin:30px auto 16px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.okface{font-size:52px;text-align:center;margin-top:30px}
+.tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(19,18,23,.96);backdrop-filter:blur(16px);border-top:1px solid #26233a;display:flex;justify-content:space-around;padding:9px 0 calc(9px + env(safe-area-inset-bottom));z-index:50}
+.tb{background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:#9b93b8;font-weight:700;padding:4px 12px;cursor:pointer;font-family:inherit}
+.tb.on{color:#ab9ff2}
+.tb .i{font-size:20px}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + env(safe-area-inset-bottom));background:#ab9ff2;color:#131217;padding:11px 20px;border-radius:14px;font-size:13px;font-weight:700;opacity:0;transition:.3s;z-index:99;max-width:80%;text-align:center}
+#toast.show{opacity:1}
+.note{font-size:11px;color:#9b93b8;text-align:center;padding:16px 24px 4px;line-height:1.5}
+.setrow{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;border-bottom:1px solid #26233a;font-size:14px}
+.setrow .b{color:#9b93b8;font-size:11.5px}
+</style>
+</head>
+<body>
+<div class='demobar'>⚠ DEMO — SYMULATOR PORTFELA KRYPTO · BRAK PRAWDZIWYCH ŚRODKÓW</div>
+<div id='wrap'>
+<div id='ob'>
+ <div id='obStart'>
+  <div class='ghost'>👻</div>
+  <h1>Wallet Demo</h1>
+  <div class='sub'>Symulator portfela krypto w stylu Phantom — do nauki.<br>Środki i adresy są <b>całkowicie fikcyjne</b>.</div>
+  <button class='btnP' onclick='createWallet()'>Utwórz portfel demo</button>
+ </div>
+ <div id='phrase'>
+  <h2>Twoja fraza odzyskiwania (DEMO)</h2>
+  <div class='warn'>⚠ Ta fraza jest <b>fałszywa</b>, wygenerowana losowo do celów edukacyjnych. Nie używaj jej nigdzie. Prawdziwej frazy odzyskiwania <b>nigdy nie pokazuj i nie wpisuj</b> poza oficjalną aplikacją portfela.</div>
+  <div class='wgrid' id='wgrid'></div>
+  <button class='btnP' onclick='finishOb()'>Rozumiem — dalej</button>
+ </div>
+</div>
+<div id='v-home' class='view on'>
+ <div class='top'><div class='brand'>Wallet Demo</div><div class='avatar'>MD</div></div>
+ <div class='balbox'>
+  <div class='lbl'>Wartość portfela</div>
+  <div class='amt'>$<span id='usd'>0</span></div>
+  <div class='addr' onclick='openRecv()'><span id='addrS'>—</span> ⧉</div>
+ </div>
+ <div class='search'>🔍 Szukaj, wklej adres…</div>
+ <div class='acts'>
+  <button class='act' onclick='openRecv()'><span class='i'>⬇️</span><span class='l'>Odbierz</span></button>
+  <button class='act' onclick='openSend()'><span class='i'>⬆️</span><span class='l'>Wyślij</span></button>
+  <button class='act' onclick='go("swap")'><span class='i'>🔄</span><span class='l'>Swap</span></button>
+  <button class='act' onclick='go("buy")'><span class='i'>💳</span><span class='l'>Kup</span></button>
+ </div>
+ <div class='sect'>Twoje tokeny</div>
+ <div id='tokList'></div>
+ <p class='note'>Projekt edukacyjny. Ten portfel nie istnieje w żadnym blockchainie — wszystkie dane są zapisane tylko lokalnie w Twojej przeglądarce.</p>
+</div>
+<div id='v-swap' class='view'>
+ <div class='sect' style='padding-top:calc(18px + env(safe-area-inset-top))'>Swap (symulacja)</div>
+ <div class='fbox'>
+  <label>Zamieniasz</label><select id='swFrom'></select>
+  <label>Kwota</label><input id='swAmt' inputmode='decimal' placeholder='0.0'>
+  <label>Otrzymasz</label><select id='swTo'></select>
+  <div class='rowinfo'><span id='swInfo'>—</span></div>
+  <button class='btnP' style='max-width:none;margin-top:14px' onclick='doSwap()'>Podgląd i wykonaj</button>
+ </div>
+ <p class='note'>Kursy fikcyjne, stałe. Swap tylko modyfikuje saldo demo.</p>
+</div>
+<div id='v-act' class='view'>
+ <div class='sect' style='padding-top:calc(18px + env(safe-area-inset-top))'>Aktywność</div>
+ <div id='actList'></div>
+</div>
+<div id='v-set' class='view'>
+ <div class='sect' style='padding-top:calc(18px + env(safe-area-inset-top))'>Ustawienia</div>
+ <div class='setrow'><span>Adres portfela (demo)</span><span class='b' id='setAddr'>—</span></div>
+ <div class='setrow'><span>Wersja</span><span class='b'>Wallet Demo 1.0</span></div>
+ <div class='setrow'><span>Sieć</span><span class='b'>Demo Chain (fikcyjna)</span></div>
+ <div style='padding:16px 18px'><button class='btnP' style='max-width:none;background:#e05a5a;color:#fff' onclick='resetAll()'>Wyczyść dane demo</button></div>
+ <p class='note'>Ta aplikacja nie jest powiązana z Phantom ani żadnym prawdziwym portfelem. Nie wpisuj tu żadnych prawdziwych danych.</p>
+</div>
+<div id='v-buy' class='view'>
+ <div class='sect' style='padding-top:calc(18px + env(safe-area-inset-top))'>Kup krypto (symulacja)</div>
+ <div class='fbox'>
+  <label>Token</label><select id='byTok'></select>
+  <label>Kwota w USD</label><input id='byUsd' inputmode='decimal' placeholder='100'>
+  <button class='btnP' style='max-width:none;margin-top:14px' onclick='doBuy()'>Kup (demo)</button>
+ </div>
+</div>
+<div class='tabbar'>
+ <button class='tb on' id='t-home' onclick='go("home")'><span class='i'>🏠</span>Portfel</button>
+ <button class='tb' id='t-swap' onclick='go("swap")'><span class='i'>🔄</span>Swap</button>
+ <button class='tb' id='t-act' onclick='go("act")'><span class='i'>📈</span>Aktywność</button>
+ <button class='tb' id='t-set' onclick='go("set")'><span class='i'>⚙️</span>Ustawienia</button>
+</div>
+</div>
+<div class='bk' id='bk' onclick='closeSheets()'></div>
+<div class='sheet' id='shRecv'>
+ <h3>Odbierz (demo) <button class='x' onclick='closeSheets()'>✕</button></h3>
+ <canvas id='qr' width='180' height='180'></canvas>
+ <div class='addrBig' id='addrBig'>—</div>
+ <button class='btnP' style='max-width:none' onclick='copyAddr()'>Kopiuj adres (demo)</button>
+ <p class='note'>Adres i kod QR są fikcyjne i nie działają w żadnym blockchainie.</p>
+</div>
+<div class='sheet' id='shSend'>
+ <h3>Wyślij (demo) <button class='x' onclick='closeSheets()'>✕</button></h3>
+ <div id='sendForm'>
+  <label>Token</label><select id='sdTok'></select>
+  <label>Adres odbiorcy</label><input id='sdTo' placeholder='Wklej adres (demo)'>
+  <label>Kwota</label><input id='sdAmt' inputmode='decimal' placeholder='0.0'>
+  <button class='btnP' style='max-width:none;margin-top:14px' onclick='doSend()'>Wyślij</button>
+ </div>
+ <div id='sendLoad' style='display:none'><div class='spin'></div><div style='text-align:center'>Podpisywanie transakcji (demo)…</div></div>
+ <div id='sendOk' style='display:none'><div class='okface'>✅</div><div style='text-align:center;font-weight:800;font-size:16px'>Wysłano (demo)</div><div style='text-align:center;color:#9b93b8;font-size:11px;margin:6px 0 16px' id='sdTx'></div><button class='btnP' style='max-width:none' onclick='closeSheets()'>Gotowe</button></div>
+</div>
+<div id='toast'></div>
+<script>
+var K='walletdemo_v1';
+var CH='123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+var WORDS=['demo','edukacja','portfel','symulacja','nauka','lekcja','kod','ekran','dane','plik','tekst','zapis','kopia','lampa','rzeka','obraz','klucz','mysz','butelka','chmura','ziarno','piasek','bilet','latarnia'];
+var S=null;
+try{S=JSON.parse(localStorage.getItem(K)||'null')}catch(e){}
+function save(){localStorage.setItem(K,JSON.stringify(S))}
+function defState(addr){return {addr:addr,tokens:[
+ {s:'SOL',n:'Solana',a:12.5,p:132.45,i:'◎'},
+ {s:'USDC',n:'USD Coin',a:500,p:1,i:'💵'},
+ {s:'ETH',n:'Ethereum',a:0.8,p:2680,i:'Ξ'},
+ {s:'BONK',n:'Bonk',a:1000000,p:0.0000125,i:'🐕'}
+],act:[
+ {t:'Otrzymano',d:'+2.0 SOL',w:'dzisiaj',i:'⬇️'},
+ {t:'Wysłano',d:'−50 USDC',w:'wczoraj',i:'⬆️'},
+ {t:'Swap',d:'0.1 ETH → 12 SOL',w:'2 dni temu',i:'🔄'}
+]}}
+function rAddr(){var a='';for(var i=0;i<44;i++)a+=CH[Math.floor(Math.random()*CH.length)];return a}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2200)}
+function fm(n){return n.toLocaleString('pl-PL',{maximumFractionDigits:8})}
+function usd(){return S.tokens.reduce(function(t,x){return t+x.a*x.p},0)}
+function short(a){return a.slice(0,4)+'…'+a.slice(-4)}
+function createWallet(){
+ var a=rAddr();
+ S=defState(a);save();
+ var g=document.getElementById('wgrid');g.innerHTML='';
+ for(var i=0;i<12;i++){var s=document.createElement('span');s.textContent=(i+1)+'. '+WORDS[Math.floor(Math.random()*WORDS.length)];g.appendChild(s)}
+ document.getElementById('obStart').style.display='none';
+ document.getElementById('phrase').style.display='flex';
+}
+function finishOb(){document.getElementById('ob').style.display='none';render()}
+function fillSel(id){var el=document.getElementById(id);el.innerHTML=S.tokens.map(function(x){return '<option value="'+x.s+'">'+x.s+' — '+x.n+'</option>'}).join('')}
+function render(){
+ document.getElementById('usd').textContent=usd().toLocaleString('pl-PL',{minimumFractionDigits:2,maximumFractionDigits:2});
+ document.getElementById('addrS').textContent=short(S.addr);
+ document.getElementById('addrBig').textContent=S.addr;
+ document.getElementById('setAddr').textContent=short(S.addr);
+ document.getElementById('tokList').innerHTML=S.tokens.map(function(x){var u=x.a*x.p;return '<div class="tok" onclick="openSend(\''+x.s+'\')"><div class="ic">'+x.i+'</div><div class="g"><div class="n">'+x.n+'</div><div class="s">'+fm(x.a)+' '+x.s+'</div></div><div class="v"><div class="va">'+fm(x.a)+' '+x.s+'</div><div class="vb">$'+u.toLocaleString('pl-PL',{minimumFractionDigits:2,maximumFractionDigits:2})+'</div></div></div>'}).join('');
+ document.getElementById('actList').innerHTML=S.act.map(function(x){return '<div class="tok"><div class="ic">'+x.i+'</div><div class="g"><div class="n">'+x.t+'</div><div class="s">'+x.w+'</div></div><div class="v"><div class="va">'+x.d+'</div></div></div>'}).join('')||'<p class="note">Brak aktywności</p>';
+ fillSel('sdTok');fillSel('swFrom');fillSel('swTo');fillSel('byTok');
+ drawQR(S.addr);
+}
+function go(v){['home','swap','act','set','buy'].forEach(function(x){var el=document.getElementById('v-'+x);if(el)el.classList.toggle('on',x===v);var b=document.getElementById('t-'+x);if(b)b.classList.toggle('on',x===v)});window.scrollTo(0,0)}
+function openRecv(){document.getElementById('bk').classList.add('on');document.getElementById('shRecv').classList.add('on')}
+function openSend(sym){document.getElementById('bk').classList.add('on');document.getElementById('shSend').classList.add('on');
+ document.getElementById('sendForm').style.display='block';document.getElementById('sendLoad').style.display='none';document.getElementById('sendOk').style.display='none';
+ if(sym)document.getElementById('sdTok').value=sym}
+function closeSheets(){document.getElementById('bk').classList.remove('on');document.getElementById('shRecv').classList.remove('on');document.getElementById('shSend').classList.remove('on')}
+function copyAddr(){var r=document.createRange();r.selectNode(document.getElementById('addrBig'));getSelection().removeAllRanges();getSelection().addRange(r);try{document.execCommand('copy');toast('Adres (demo) skopiowany')}catch(e){toast('Skopiuj ręcznie')}getSelection().removeAllRanges()}
+function tok(sym){return S.tokens.filter(function(x){return x.s===sym})[0]}
+function doSend(){
+ var t=tok(document.getElementById('sdTok').value);
+ var a=parseFloat(String(document.getElementById('sdAmt').value).replace(',','.'));
+ var to=document.getElementById('sdTo').value.trim();
+ if(!to){toast('Podaj adres odbiorcy (demo)');return}
+ if(!a||a<=0){toast('Podaj poprawną kwotę');return}
+ if(a>t.a){toast('Za mało '+t.s+' w portfelu demo');return}
+ document.getElementById('sendForm').style.display='none';document.getElementById('sendLoad').style.display='block';
+ setTimeout(function(){
+  t.a-=a;S.act.unshift({t:'Wysłano',d:'−'+fm(a)+' '+t.s,w:'dzisiaj',i:'⬆️'});save();render();
+  document.getElementById('sendLoad').style.display='none';
+  document.getElementById('sdTx').textContent='SIG: DEMO-'+Math.random().toString(36).slice(2,10).toUpperCase();
+  document.getElementById('sendOk').style.display='block';
+  document.getElementById('sdTo').value='';document.getElementById('sdAmt').value='';
+ },1300)
+}
+function swInfo(){var f=tok(document.getElementById('swFrom').value),t=tok(document.getElementById('swTo').value);var a=parseFloat(String(document.getElementById('swAmt').value).replace(',','.'))||0;var out=a*f.p/t.p;document.getElementById('swInfo').textContent=a>0?('≈ '+fm(out)+' '+t.s):'—'}
+document.getElementById('swAmt').oninput=swInfo;document.getElementById('swFrom').onchange=swInfo;document.getElementById('swTo').onchange=swInfo;
+function doSwap(){
+ var f=tok(document.getElementById('swFrom').value),t=tok(document.getElementById('swTo').value);
+ var a=parseFloat(String(document.getElementById('swAmt').value).replace(',','.'));
+ if(!a||a<=0){toast('Podaj kwotę');return}
+ if(a>f.a){toast('Za mało '+f.s);return}
+ if(f.s===t.s){toast('Wybierz różne tokeny');return}
+ var out=a*f.p/t.p;
+ f.a-=a;t.a+=out;
+ S.act.unshift({t:'Swap',d:fm(a)+' '+f.s+' → '+fm(out)+' '+t.s,w:'dzisiaj',i:'🔄'});save();render();
+ document.getElementById('swAmt').value='';swInfo();
+ toast('Zamieniono (demo): '+fm(a)+' '+f.s+' → '+fm(out)+' '+t.s)
+}
+function doBuy(){
+ var t=tok(document.getElementById('byTok').value);
+ var u=parseFloat(String(document.getElementById('byUsd').value).replace(',','.'));
+ if(!u||u<=0){toast('Podaj kwotę w USD');return}
+ var amt=u/t.p;t.a+=amt;
+ S.act.unshift({t:'Kupiono',d:'+'+fm(amt)+' '+t.s+' ($'+fm(u)+')',w:'dzisiaj',i:'💳'});save();render();
+ document.getElementById('byUsd').value='';
+ toast('Kupiono (demo): '+fm(amt)+' '+t.s)
+}
+function resetAll(){localStorage.removeItem(K);location.reload()}
+function drawQR(a){var c=document.getElementById('qr'),x=c.getContext('2d');var n=25,sz=180/n;x.fillStyle='#fff';x.fillRect(0,0,180,180);var seed=0;for(var i=0;i<a.length;i++)seed+=a.charCodeAt(i)*(i+1);function rnd(){seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff}x.fillStyle='#131217';for(var r=1;r<n-1;r++)for(var q=1;q<n-1;q++){if(!(r<8&&q<8)&&!(r<8&&q>=n-8)&&!(r>=n-8&&q<8)&&rnd()>0.52)x.fillRect(q*sz,r*sz,sz,sz)}
+ function finder(px,py){x.fillStyle='#131217';x.fillRect(px*sz,py*sz,7*sz,7*sz);x.fillStyle='#fff';x.fillRect((px+1)*sz,(py+1)*sz,5*sz,5*sz);x.fillStyle='#131217';x.fillRect((px+2)*sz,(py+2)*sz,3*sz,3*sz)}
+ finder(0,0);finder(n-7,0);finder(0,n-7);
+ x.fillStyle='#FFD84D';x.font='bold 10px Arial';x.textAlign='center';x.fillText('DEMO',90,175);
+}
+if(S){document.getElementById('ob').style.display='none';render()}
+(function(){var c=document.createElement('canvas');c.width=180;c.height=180;var x=c.getContext('2d');var g=x.createRadialGradient(90,70,10,90,90,120);g.addColorStop(0,'#5b47b8');g.addColorStop(1,'#17142b');x.fillStyle=g;x.fillRect(0,0,180,180);x.font='96px Arial';x.textAlign='center';x.textBaseline='middle';x.fillText('👻',90,94);var l=document.createElement('link');l.rel='apple-touch-icon';l.href=c.toDataURL('image/png');document.head.appendChild(l)})();
+</script>
+</body>
+</html>
