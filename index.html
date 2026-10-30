@@ -11,7 +11,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#131217;color:#fff;-webkit-font-smoothing:antialiased}
-#wrap{max-width:430px;margin:0 auto;min-height:100vh;padding-bottom:calc(78px + env(safe-area-inset-bottom));background:#131217;position:relative}
+#wrap{max-width:430px;margin:0 auto;min-height:100vh;padding-bottom:calc(80px + env(safe-area-inset-bottom));background:#131217;position:relative}
 .demobar{background:#FFD84D;color:#131217;font-size:10px;font-weight:800;letter-spacing:1.2px;text-align:center;padding:5px}
 #ob{position:fixed;inset:0;max-width:430px;margin:auto;background:linear-gradient(165deg,#1b1532 0%,#131217 60%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;z-index:90}
 #ob .ghost{font-size:64px;margin-bottom:16px}
@@ -30,8 +30,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .balbox{text-align:center;padding:14px 18px 14px}
 .balbox .lbl{font-size:12px;color:#9b93b8}
 .balbox .amt{font-size:40px;font-weight:800;margin-top:4px;letter-spacing:-.5px;cursor:pointer}
-.search{margin:2px 18px 14px;background:#1e1b2e;border:1px solid #2c2844;border-radius:14px;padding:11px 14px;color:#9b93b8;font-size:13px;display:flex;align-items:center;gap:8px;cursor:pointer}
-.acts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 18px 18px}
+.balbox .chng{font-size:12.5px;margin-top:4px;font-weight:700}
+.up{color:#2fbf71}.down{color:#e05a5a}
+.search{margin:6px 18px 14px;background:#1e1b2e;border:1px solid #2c2844;border-radius:14px;padding:11px 14px;color:#9b93b8;font-size:13px;display:flex;align-items:center;gap:8px;cursor:pointer}
+.acts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 18px 16px}
 .act{background:rgba(171,159,242,.12);border:1px solid rgba(171,159,242,.25);border:none;border-radius:16px;padding:13px 4px;text-align:center;cursor:pointer;color:#cfc8ee;font-family:inherit}
 .act:active{transform:scale(.95)}
 .act .i{font-size:20px;display:block;margin-bottom:5px}
@@ -47,6 +49,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .tok .v{text-align:right}
 .tok .va{font-size:14.5px;font-weight:700;white-space:nowrap}
 .tok .vb{font-size:11.5px;color:#9b93b8}
+.tok .vb .up{font-size:11.5px}
 .nftgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:4px 18px 14px}
 .nft{background:#1e1b2e;border:1px solid #2c2844;border-radius:16px;overflow:hidden}
 .nft .im{height:110px;display:flex;align-items:center;justify-content:center;font-size:44px}
@@ -55,12 +58,36 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .view{display:none}
 .view.on{display:block;animation:fade .22s}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.vhead{display:flex;justify-content:space-between;align-items:center;padding:calc(16px + env(safe-area-inset-top)) 18px 10px}
+.vhead .t{font-size:17px;font-weight:800}
+.vx{background:none;border:none;color:#9b93b8;font-size:19px;cursor:pointer;font-family:inherit}
+.chiprow{display:flex;gap:8px;padding:2px 18px 14px;overflow-x:auto}
+.chip{background:#1e1b2e;border:1px solid #2c2844;border-radius:16px;padding:8px 14px;font-size:12px;color:#cfc8ee;white-space:nowrap;font-weight:700}
+.chip.on{background:#ab9ff2;color:#131217;border-color:#ab9ff2}
+.hotgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 18px 14px}
+.hot{background:#1e1b2e;border:1px solid #2c2844;border-radius:16px;padding:14px}
+.hot .hn{font-size:12px;font-weight:800;color:#cfc8ee}
+.hot .hv{font-size:18px;font-weight:800;margin:6px 0 2px}
+.hot .hc{font-size:11px;font-weight:700}
+.mrow{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid #26233a;cursor:pointer}
+.mrow:active{background:#1a1728}
+.mrow .mi{width:38px;height:38px;border-radius:50%;background:#1e1b2e;border:1px solid #2c2844;display:flex;align-items:center;justify-content:center;font-size:17px}
+.mrow .mg{flex:1}
+.mrow .mn{font-size:14px;font-weight:700}
+.mrow .ms{font-size:11px;color:#9b93b8}
+.mrow .mp{text-align:right;font-size:13.5px;font-weight:800}
+.mrow .mp .down,.mrow .mp .up{font-size:11px}
 .fbox{margin:8px 18px;background:#1e1b2e;border:1px solid #2c2844;border-radius:18px;padding:16px}
 label{display:block;font-size:11px;color:#9b93b8;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin:10px 0 5px}
 label:first-child{margin-top:0}
 input,select{width:100%;background:#131217;border:1.5px solid #2c2844;border-radius:12px;padding:12px 13px;color:#fff;font-size:15px;font-family:inherit;outline:none}
 input:focus,select:focus{border-color:#ab9ff2}
 .rowinfo{display:flex;justify-content:space-between;font-size:12px;color:#9b93b8;margin-top:8px}
+#tdChart{display:block;width:100%;height:130px}
+.tdbig{font-size:30px;font-weight:800;margin:6px 0 2px}
+.tdrow{display:flex;justify-content:space-between;font-size:13px;padding:10px 0;border-bottom:1px solid #26233a}
+.tdrow .k{color:#9b93b8}
+.tdrow .val{font-weight:700}
 .bk{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:60;display:none}
 .bk.on{display:block}
 .sheet{position:fixed;left:50%;transform:translate(-50%,110%);bottom:0;width:100%;max-width:430px;background:#1e1b2e;border-radius:24px 24px 0 0;padding:22px 18px calc(22px + env(safe-area-inset-bottom));z-index:61;transition:transform .3s;max-height:88vh;overflow-y:auto}
@@ -73,10 +100,10 @@ input:focus,select:focus{border-color:#ab9ff2}
 @keyframes sp{to{transform:rotate(360deg)}}
 .okface{font-size:52px;text-align:center;margin-top:30px}
 .tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(19,18,23,.96);backdrop-filter:blur(16px);border-top:1px solid #26233a;display:flex;justify-content:space-around;padding:9px 0 calc(9px + env(safe-area-inset-bottom));z-index:50}
-.tb{background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:#9b93b8;font-weight:700;padding:4px 12px;cursor:pointer;font-family:inherit}
+.tb{background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:#9b93b8;font-weight:700;padding:4px 10px;cursor:pointer;font-family:inherit}
 .tb.on{color:#ab9ff2}
 .tb .i{font-size:20px}
-#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(96px + env(safe-area-inset-bottom));background:#ab9ff2;color:#131217;padding:11px 20px;border-radius:14px;font-size:13px;font-weight:700;opacity:0;transition:.3s;z-index:99;max-width:80%;text-align:center}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(98px + env(safe-area-inset-bottom));background:#ab9ff2;color:#131217;padding:11px 20px;border-radius:14px;font-size:13px;font-weight:700;opacity:0;transition:.3s;z-index:99;max-width:80%;text-align:center}
 #toast.show{opacity:1}
 .note{font-size:11px;color:#9b93b8;text-align:center;padding:16px 24px 4px;line-height:1.5}
 .setrow{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;border-bottom:1px solid #26233a;font-size:14px;cursor:pointer}
@@ -90,13 +117,6 @@ input:focus,select:focus{border-color:#ab9ff2}
 .chainRow .sw.on{background:#ab9ff2}
 .chainRow .sw::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s}
 .chainRow .sw.on::after{left:21px}
-.expl{padding:6px 18px}
-.expbox{background:#1e1b2e;border:1px solid #2c2844;border-radius:16px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer}
-.expbox:active{transform:scale(.98)}
-.expbox .ei{font-size:24px}
-.expbox .eg{flex:1}
-.expbox .en{font-size:14px;font-weight:700}
-.expbox .ed{font-size:11.5px;color:#9b93b8}
 </style>
 </head>
 <body>
@@ -116,11 +136,14 @@ input:focus,select:focus{border-color:#ab9ff2}
   <button class='btnP' onclick='finishOb()'>Rozumiem — dalej</button>
  </div>
 </div>
+
+<!-- HOME -->
 <div id='v-home' class='view on'>
- <div class='top'><div class='brand'>Wallet Demo</div><div class='avatar' onclick='go("set")'>MD</div></div>
+ <div class='top'><div class='brand'>Wallet Demo</div><div class='avatar' onclick='go("account")'>MD</div></div>
  <div class='balbox'>
   <div class='lbl'>Wartość portfela</div>
   <div class='amt' onclick='openRecv()'>$<span id='usd'>0</span></div>
+  <div class='chng up' id='chng'>+$0.00 (0.00%)</div>
   <div class='addr' onclick='openRecv()'><span id='addrS'>—</span> ⧉</div>
  </div>
  <div class='search' onclick='focusSearch()'>🔍 <span>Szukaj, wklej adres…</span></div>
@@ -137,10 +160,86 @@ input:focus,select:focus{border-color:#ab9ff2}
   <div class='nft' onclick='toast("To fikcyjne NFT — tylko demo")'><div class='im' style='background:linear-gradient(135deg,#5b47b8,#ab9ff2)'>👻</div><div class='nm'>Demo Ghost #1</div><div class='pr'>Fikcyjne NFT</div></div>
   <div class='nft' onclick='toast("To fikcyjne NFT — tylko demo")'><div class='im' style='background:linear-gradient(135deg,#2c2844,#9b93b8)'>🚀</div><div class='nm'>Moon Ticket</div><div class='pr'>Fikcyjne NFT</div></div>
  </div>
- <p class='note'>Projekt edukacyjny. Ten portfel nie istnieje w żadnym blockchainie — dane są zapisane tylko lokalnie w Twojej przeglądarce.</p>
+ <p class='note'>Projekt edukacyjny. Ten portfel nie istnieje w żadnym blockchainie — dane są tylko lokalnie w Twojej przeglądarce.</p>
 </div>
+
+<!-- TRADE -->
+<div id='v-trade' class='view'>
+ <div class='vhead'><span class='t'>Trade</span><button class='vx' onclick='toast("Filtry (demo)")'>⚙</button></div>
+ <div class='chiprow'>
+  <div class='chip on' onclick='toast("Gorące rynki (demo)")'>🔥 Hot</div>
+  <div class='chip' onclick='toast("Trending (demo)")'>📈 Trending</div>
+  <div class='chip' onclick='toast("Nowe (demo)")'>✨ Nowe</div>
+  <div class='chip' onclick='toast("Perpy (demo)")'>⚡ Perps</div>
+ </div>
+ <div class='sect'>Gorące rynki</div>
+ <div class='hotgrid'>
+  <div class='hot' onclick='openTok("SOL")'><div class='hn'>Solana</div><div class='hv'>$132.45</div><div class='hc up'>+4.8% dzisiaj</div></div>
+  <div class='hot' onclick='openTok("ETH")'><div class='hn'>Ethereum</div><div class='hv'>$2 680</div><div class='hc up'>+2.1% dzisiaj</div></div>
+  <div class='hot' onclick='openTok("BONK")'><div class='hn'>Bonk</div><div class='hv'>$0.0000125</div><div class='hc down'>−1.3% dzisiaj</div></div>
+  <div class='hot' onclick='openTok("USDC")'><div class='hn'>USD Coin</div><div class='hv'>$1.00</div><div class='hc' style='color:#9b93b8'>stabilny</div></div>
+ </div>
+ <div class='sect'>Trending tokeny</div>
+ <div class='mrow' onclick='openTok("SOL")'><div class='mi'>◎</div><div class='mg'><div class='mn'>Solana</div><div class='ms'>Volume: $2.1B (fikcyjny)</div></div><div class='mp'>$132.45<br><span class='up'>+4.8%</span></div></div>
+ <div class='mrow' onclick='openTok("ETH")'><div class='mi'>Ξ</div><div class='mg'><div class='mn'>Ethereum</div><div class='ms'>Volume: $18.4B (fikcyjny)</div></div><div class='mp'>$2 680<br><span class='up'>+2.1%</span></div></div>
+ <div class='mrow' onclick='openTok("BONK")'><div class='mi'>🐕</div><div class='mg'><div class='mn'>Bonk</div><div class='ms'>Volume: $94M (fikcyjny)</div></div><div class='mp'>$0.0000125<br><span class='down'>−1.3%</span></div></div>
+ <p class='note'>Ceny i wolumeny są fikcyjne i stałe. To edukacyjna symulacja ekranu „Trade".</p>
+</div>
+
+<!-- PREDICT -->
+<div id='v-predict' class='view'>
+ <div class='vhead'><span class='t'>Predict</span><button class='vx' onclick='toast("Kategorie (demo)")'>☰</button></div>
+ <div class='sect'>Rynki predykcyjne</div>
+ <div class='mrow' onclick='toast("Typowanie — tylko demo")'><div class='mi'>🗳️</div><div class='mg'><div class='mn'>Kto wygra wybory?</div><div class='ms'>Zamyka się: fikcyjna data</div></div><div class='mp'>62%<br><span class='up'>↑</span></div></div>
+ <div class='mrow' onclick='toast("Typowanie — tylko demo")'><div class='mi'>⚽</div><div class='mg'><div class='mn'>Mecz: Fikcyjna drużyna A vs B</div><div class='ms'>Zamyka się: fikcyjna data</div></div><div class='mp'>48%<br><span class='down'>↓</span></div></div>
+ <div class='mrow' onclick='toast("Typowanie — tylko demo")'><div class='mi'>₿</div><div class='mg'><div class='mn'>BTC powyżej $100k?</div><div class='ms'>Zamyka się: fikcyjna data</div></div><div class='mp'>71%<br><span class='up'>↑</span></div></div>
+ <div class='sect'>Nadchodzące wydarzenia</div>
+ <div class='mrow' onclick='toast("Nadchodzące wydarzenia — tylko demo")'><div class='mi'>📅</div><div class='mg'><div class='mn'>Fikcyjne wydarzenie #1</div><div class='ms'>Wkrótce (demo)</div></div><div class='mp'>—</div></div>
+ <div class='mrow' onclick='toast("Nadchodzące wydarzenia — tylko demo")'><div class='mi'>📅</div><div class='mg'><div class='mn'>Fikcyjne wydarzenie #2</div><div class='ms'>Wkrótce (demo)</div></div><div class='mp'>—</div></div>
+ <p class='note'>W prawdziwym Phantom ta sekcja prowadzi do rynków predykcyjnych (np. Kalshi). Tu — wyłącznie fikcyjne przykłady.</p>
+</div>
+
+<!-- EXPLORE -->
+<div id='v-explore' class='view'>
+ <div class='vhead'><span class='t'>Eksploruj</span><button class='vx' onclick='toast("Powiadomienia (demo)")'>🔔</button></div>
+ <div class='sect'>Szybkie akcje</div>
+ <div class='acts'>
+  <button class='act' onclick='openSend()'><span class='i'>⬆️</span><span class='l'>Wyślij</span></button>
+  <button class='act' onclick='openRecv()'><span class='i'>⬇️</span><span class='l'>Odbierz</span></button>
+  <button class='act' onclick='go("buy")'><span class='i'>➕</span><span class='l'>Dodaj</span></button>
+  <button class='act' onclick='go("swap")'><span class='i'>📊</span><span class='l'>Trade</span></button>
+ </div>
+ <div class='sect'>Odkrywaj</div>
+ <div class='mrow' onclick='toast("Staking SOL — symulacja edukacyjna")'><div class='mi'>🌾</div><div class='mg'><div class='mn'>Staking SOL</div><div class='ms'>~7% rocznie (demo)</div></div><div class='mp' style='color:#ab9ff2'>→</div></div>
+ <div class='mrow' onclick='toast("NFT — tylko demo")'><div class='mi'>🖼️</div><div class='mg'><div class='mn'>NFT</div><div class='ms'>Przeglądaj kolekcje (demo)</div></div><div class='mp' style='color:#ab9ff2'>→</div></div>
+ <div class='mrow' onclick='toast("dApps — tylko demo")'><div class='mi'>🌐</div><div class='mg'><div class='mn'>Aplikacje</div><div class='ms'>Odkrywaj dApps (demo)</div></div><div class='mp' style='color:#ab9ff2'>→</div></div>
+ <div class='sect'>Wiadomości</div>
+ <div class='mrow' onclick='toast("Fikcyjna wiadomość — tylko demo")'><div class='mi'>📰</div><div class='mg'><div class='mn'>Fikcyjny nagłówek newsa #1</div><div class='ms'>Demo News · teraz</div></div></div>
+ <div class='mrow' onclick='toast("Fikcyjna wiadomość — tylko demo")'><div class='mi'>📰</div><div class='mg'><div class='mn'>Fikcyjny nagłówek newsa #2</div><div class='ms'>Demo News · 2h</div></div></div>
+ <p class='note'>Sekcja w stylu „Explore" — wszystkie pozycje to symulacje edukacyjne.</p>
+</div>
+
+<!-- ACCOUNT -->
+<div id='v-account' class='view'>
+ <div class='vhead'><span class='t'>Konto</span><button class='vx' onclick='toast("Tryb awaryjny (demo)")'>🆘</button></div>
+ <div style='text-align:center;padding:10px 18px 18px'>
+  <div class='avatar' style='width:64px;height:64px;font-size:24px;margin:0 auto 8px'>MD</div>
+  <div style='font-size:16px;font-weight:800'>Moje konto (demo)</div>
+  <div class='addr' style='display:inline-flex' onclick='openRecv()'><span id='addrS2'>—</span> ⧉</div>
+ </div>
+ <div class='mrow' onclick='toast("Watchlist (demo)")'><div class='mi'>👁️</div><div class='mg'><div class='mn'>Obserwowane</div><div class='ms'>Twoja lista (demo)</div></div></div>
+ <div class='mrow' onclick='openNetSheet()'><div class='mi'>🌐</div><div class='mg'><div class='mn'>Sieci</div><div class='ms' id='netCount'>2 aktywne</div></div></div>
+ <div class='mrow' onclick='copyAddr2()'><div class='mi'>📋</div><div class='mg'><div class='mn'>Adres portfela (demo)</div><div class='ms' id='setAddr'>—</div></div></div>
+ <div class='mrow' onclick='toast("Zabezpieczenia — w prawdziwym Phantom tu jest PIN i fraza")'><div class='mi'>🔒</div><div class='mg'><div class='mn'>Zabezpieczenia</div><div class='ms'>PIN / Fraza (demo)</div></div></div>
+ <div class='mrow' onclick='toast("Powiadomienia (demo)")'><div class='mi'>🔔</div><div class='mg'><div class='mn'>Powiadomienia</div><div class='ms'>Włączone</div></div></div>
+ <div class='mrow'><div class='mi'>ℹ️</div><div class='mg'><div class='mn'>Wersja</div><div class='ms'>Wallet Demo 3.0</div></div></div>
+ <div style='padding:16px 18px'><button class='btnP' style='max-width:none;background:#e05a5a;color:#fff' onclick='resetAll()'>Wyczyść dane demo</button></div>
+ <p class='note'>Ta aplikacja nie jest powiązana z Phantom ani żadnym prawdziwym portfelem. Nie wpisuj tu żadnych prawdziwych danych.</p>
+</div>
+
+<!-- SWAP -->
 <div id='v-swap' class='view'>
- <div style='display:flex;justify-content:space-between;align-items:center;padding:calc(16px + env(safe-area-inset-top)) 18px 10px'><span style='font-size:17px;font-weight:800'>Swap (symulacja)</span><button class='x' style='font-size:15px;color:#cfc8ee' onclick='go("home")'>✕</button></div>
+ <div class='vhead'><span class='t'>Swap (symulacja)</span><button class='vx' onclick='go("home")'>✕</button></div>
  <div class='fbox'>
   <label>Zamieniasz</label><select id='swFrom'></select>
   <label>Kwota</label><input id='swAmt' inputmode='decimal' placeholder='0.0'>
@@ -150,44 +249,47 @@ input:focus,select:focus{border-color:#ab9ff2}
  </div>
  <p class='note'>Kursy fikcyjne, stałe. Swap tylko modyfikuje saldo demo.</p>
 </div>
-<div id='v-act' class='view'>
- <div style='padding:calc(16px + env(safe-area-inset-top)) 18px 10px;font-size:17px;font-weight:800'>Aktywność</div>
- <div id='actList'></div>
-</div>
-<div id='v-explore' class='view'>
- <div style='padding:calc(16px + env(safe-area-inset-top)) 18px 10px;font-size:17px;font-weight:800'>Eksploruj</div>
- <div class='expl'>
-  <div class='expbox' onclick='toast("Staking SOL — symulacja edukacyjna")'><div class='ei'>🌾</div><div class='eg'><div class='en'>Staking SOL</div><div class='ed'>Zarabiaj ~7% rocznie (demo)</div></div><div style='color:#ab9ff2'>→</div></div>
-  <div class='expbox' onclick='toast("Rynki predykcyjne — tylko demo")'><div class='ei'>🎯</div><div class='eg'><div class='en'>Rynki predykcyjne</div><div class='ed'>Typuj wydarzenia (demo)</div></div><div style='color:#ab9ff2'>→</div></div>
-  <div class='expbox' onclick='toast("Zarządzanie NFT — tylko demo")'><div class='ei'>🖼️</div><div class='eg'><div class='en'>NFT</div><div class='ed'>Przeglądaj kolekcje (demo)</div></div><div style='color:#ab9ff2'>→</div></div>
-  <div class='expbox' onclick='toast("Aplikacje web3 — tylko demo")'><div class='ei'>🌐</div><div class='eg'><div class='en'>Aplikacje</div><div class='ed'>Odkrywaj dApps (demo)</div></div><div style='color:#ab9ff2'>→</div></div>
- </div>
- <p class='note'>Sekcja w stylu „Explore" z Phantom — wszystkie pozycje to symulacje edukacyjne.</p>
-</div>
-<div id='v-set' class='view'>
- <div style='padding:calc(16px + env(safe-area-inset-top)) 18px 10px;font-size:17px;font-weight:800'>Ustawienia</div>
- <div class='setrow' onclick='openNetSheet()'><span>🌐 Sieci</span><span class='b' id='netCount'>2 aktywne</span></div>
- <div class='setrow' onclick='copyAddr2()'><span>Adres portfela (demo)</span><span class='b' id='setAddr'>—</span></div>
- <div class='setrow' onclick='toast("Zabezpieczenia — w prawdziwym Phantom tu jest PIN i fraza")'><span>🔒 Zabezpieczenia</span><span class='b'>PIN / Fraza (demo)</span></div>
- <div class='setrow' onclick='toast("Ukryj małe salda (demo)")'><span>⦿ Ukryj małe salda</span><span class='b'>Off</span></div>
- <div class='setrow' onclick='toast("Powiadomienia (demo)")'><span>🔔 Powiadomienia</span><span class='b'>Włączone</span></div>
- <div class='setrow'><span>Wersja</span><span class='b'>Wallet Demo 2.0</span></div>
- <div style='padding:16px 18px'><button class='btnP' style='max-width:none;background:#e05a5a;color:#fff' onclick='resetAll()'>Wyczyść dane demo</button></div>
- <p class='note'>Ta aplikacja nie jest powiązana z Phantom ani żadnym prawdziwym portfelem. Nie wpisuj tu żadnych prawdziwych danych.</p>
-</div>
+
+<!-- BUY -->
 <div id='v-buy' class='view'>
- <div style='display:flex;justify-content:space-between;align-items:center;padding:calc(16px + env(safe-area-inset-top)) 18px 10px'><span style='font-size:17px;font-weight:800'>Kup krypto (symulacja)</span><button class='x' style='font-size:15px;color:#cfc8ee' onclick='go("home")'>✕</button></div>
+ <div class='vhead'><span class='t'>Kup krypto (symulacja)</span><button class='vx' onclick='go("home")'>✕</button></div>
  <div class='fbox'>
   <label>Token</label><select id='byTok'></select>
   <label>Kwota w USD</label><input id='byUsd' inputmode='decimal' placeholder='100'>
   <button class='btnP' style='max-width:none;margin-top:14px' onclick='doBuy()'>Kup (demo)</button>
  </div>
+ <p class='note'>W prawdziwym Phantom: MoonPay, Coinbase, Revolut… Tu — symulacja.</p>
 </div>
+
+<!-- TOKEN DETAIL -->
+<div id='v-tokdetail' class='view'>
+ <div class='vhead'><button class='vx' onclick='go("home")'>‹</button><span class='t' id='tdName'>Token</span><button class='vx' onclick='toast("Więcej opcji (demo)")'>⋯</button></div>
+ <div style='padding:2px 18px 10px;text-align:center'>
+  <div class='tdbig' id='tdPrice'>$0</div>
+  <div id='tdChng' class='chng up'>+0.00%</div>
+ </div>
+ <canvas id='tdChart'></canvas>
+ <div class='acts'>
+  <button class='act' onclick='openSend(curTok)'><span class='i'>⬆️</span><span class='l'>Wyślij</span></button>
+  <button class='act' onclick='go("swap")'><span class='i'>🔄</span><span class='l'>Swap</span></button>
+  <button class='act' onclick='go("buy")'><span class='i'>💳</span><span class='l'>Kup</span></button>
+  <button class='act' onclick='toast("Sprzedaż — tylko demo")'><span class='i'>💰</span><span class='l'>Sprzedaj</span></button>
+ </div>
+ <div class='fbox'>
+  <div class='tdrow'><span class='k'>Twoje saldo</span><span class='val' id='tdBal'>0</span></div>
+  <div class='tdrow'><span class='k'>Wartość</span><span class='val' id='tdVal'>$0</span></div>
+  <div class='tdrow'><span class='k'>Kurs (fikcyjny)</span><span class='val' id='tdP'>$0</span></div>
+  <div class='tdrow' style='border:none'><span class='k'>Zmiana 24h</span><span class='val' id='tdC'>+0%</span></div>
+ </div>
+ <p class='note'>Wykres generowany losowo — dane w 100% fikcyjne.</p>
+</div>
+
 <div class='tabbar'>
  <button class='tb on' id='t-home' onclick='go("home")'><span class='i'>🏠</span>Portfel</button>
- <button class='tb' id='t-act' onclick='go("act")'><span class='i'>📈</span>Aktywność</button>
+ <button class='tb' id='t-trade' onclick='go("trade")'><span class='i'>📊</span>Trade</button>
+ <button class='tb' id='t-predict' onclick='go("predict")'><span class='i'>🎯</span>Predict</button>
  <button class='tb' id='t-explore' onclick='go("explore")'><span class='i'>🧭</span>Eksploruj</button>
- <button class='tb' id='t-set' onclick='go("set")'><span class='i'>⚙️</span>Ustawienia</button>
+ <button class='tb' id='t-account' onclick='go("account")'><span class='i'>👤</span>Konto</button>
 </div>
 </div>
 <div class='bk' id='bk' onclick='closeSheets()'></div>
@@ -227,7 +329,8 @@ var NETS=[
  {n:'Base',i:'🔵',c:'#0052FF',on:false},
  {n:'Sui',i:'💧',c:'#4DA2FF',on:false}
 ];
-var S=null;
+var CHG={SOL:4.8,ETH:2.1,USDC:0.01,BONK:-1.3};
+var S=null,curTok=null;
 try{S=JSON.parse(localStorage.getItem(K)||'null')}catch(e){}
 function save(){localStorage.setItem(K,JSON.stringify(S))}
 function defState(addr){return {addr:addr,tokens:[
@@ -257,11 +360,12 @@ function finishOb(){document.getElementById('ob').style.display='none';render()}
 function fillSel(id){var el=document.getElementById(id);el.innerHTML=S.tokens.map(function(x){return '<option value="'+x.s+'">'+x.s+' — '+x.n+'</option>'}).join('')}
 function render(){
  document.getElementById('usd').textContent=usd().toLocaleString('pl-PL',{minimumFractionDigits:2,maximumFractionDigits:2});
+ document.getElementById('chng').textContent='+$'+(usd()*0.028).toLocaleString('pl-PL',{minimumFractionDigits:2,maximumFractionDigits:2})+' (+2.80% dzisiaj)';
  document.getElementById('addrS').textContent=short(S.addr);
+ document.getElementById('addrS2').textContent=short(S.addr);
  document.getElementById('addrBig').textContent=S.addr;
  document.getElementById('setAddr').textContent=short(S.addr);
- document.getElementById('tokList').innerHTML=S.tokens.map(function(x){var u=x.a*x.p;return '<div class="tok" onclick="openSend(\''+x.s+'\')"><div class="ic">'+x.i+'</div><div class="g"><div class="n">'+x.n+'</div><div class="s">'+fm(x.a)+' '+x.s+'</div></div><div class="v"><div class="va">'+fm(x.a)+' '+x.s+'</div><div class="vb">$'+u.toLocaleString('pl-PL',{minimumFractionDigits:2,maximumFractionDigits:2})+'</div></div></div>'}).join('');
- document.getElementById('actList').innerHTML=S.act.map(function(x){return '<div class="tok"><div class="ic">'+x.i+'</div><div class="g"><div class="n">'+x.t+'</div><div class="s">'+x.w+'</div></div><div class="v"><div class="va">'+x.d+'</div></div></div>'}).join('')||'<p class="note">Brak aktywności</p>';
+ document.getElementById('tokList').innerHTML=S.tokens.map(function(x){var u=x.a*x.p,c=CHG[x.s]||0;return '<div class="tok" onclick="openTok(\''+x.s+'\')"><div class="ic">'+x.i+'</div><div class="g"><div class="n">'+x.n+'</div><div class="s">'+fm(x.a)+' '+x.s+'</div></div><div class="v"><div class="va">'+fm(x.a)+' '+x.s+'</div><div class="vb">$'+u.toLocaleString('pl-PL',{minimumFractionDigits:2,maximumFractionDigits:2})+' <span class="'+(c>=0?'up':'down')+'">'+(c>=0?'+':'')+c+'%</span></div></div></div>'}).join('');
  fillSel('sdTok');fillSel('swFrom');fillSel('swTo');fillSel('byTok');
  renderNets();
  drawQR(S.addr);
@@ -274,7 +378,7 @@ function renderNets(){
 }
 function toggleNet(i){S.nets[i].on=!S.nets[i].on;save();renderNets()}
 function openNetSheet(){document.getElementById('bk').classList.add('on');document.getElementById('shNet').classList.add('on')}
-function go(v){['home','swap','act','explore','set','buy'].forEach(function(x){var el=document.getElementById('v-'+x);if(el)el.classList.toggle('on',x===v);var b=document.getElementById('t-'+x);if(b)b.classList.toggle('on',x===v)});window.scrollTo(0,0)}
+function go(v){['home','trade','predict','explore','account','swap','buy','tokdetail'].forEach(function(x){var el=document.getElementById('v-'+x);if(el)el.classList.toggle('on',x===v);var b=document.getElementById('t-'+x);if(b)b.classList.toggle('on',x===v)});window.scrollTo(0,0)}
 function focusSearch(){toast('Wyszukiwanie — tylko demo')}
 function openRecv(){document.getElementById('bk').classList.add('on');document.getElementById('shRecv').classList.add('on')}
 function openSend(sym){document.getElementById('bk').classList.add('on');document.getElementById('shSend').classList.add('on');
@@ -284,6 +388,33 @@ function closeSheets(){document.getElementById('bk').classList.remove('on');docu
 function copyAddr(){var r=document.createRange();r.selectNode(document.getElementById('addrBig'));getSelection().removeAllRanges();getSelection().addRange(r);try{document.execCommand('copy');toast('Adres (demo) skopiowany')}catch(e){toast('Skopiuj ręcznie')}getSelection().removeAllRanges()}
 function copyAddr2(){copyAddr()}
 function tok(sym){return S.tokens.filter(function(x){return x.s===sym})[0]}
+function openTok(sym){
+ curTok=sym;var t=tok(sym),c=CHG[sym]||0;
+ document.getElementById('tdName').textContent=t.n;
+ document.getElementById('tdPrice').textContent='$'+t.p.toLocaleString('pl-PL',{maximumFractionDigits:6});
+ document.getElementById('tdChng').textContent=(c>=0?'+':'')+c+'% dzisiaj';
+ document.getElementById('tdChng').className='chng '+(c>=0?'up':'down');
+ document.getElementById('tdBal').textContent=fm(t.a)+' '+t.s;
+ document.getElementById('tdVal').textContent='$'+(t.a*t.p).toLocaleString('pl-PL',{minimumFractionDigits:2,maximumFractionDigits:2});
+ document.getElementById('tdP').textContent='$'+t.p.toLocaleString('pl-PL',{maximumFractionDigits:6});
+ document.getElementById('tdC').textContent=(c>=0?'+':'')+c+'%';
+ drawChart(c>=0);
+ go('tokdetail');
+}
+function drawChart(up){
+ var cv=document.getElementById('tdChart'),x=cv.getContext('2d');
+ cv.width=cv.offsetWidth*2;cv.height=260;x.scale(1,1);
+ var w=cv.width,h=cv.height;
+ x.clearRect(0,0,w,h);
+ var seed=Date.now()%100000;function rnd(){seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff}
+ var pts=[],v=h/2;
+ for(var i=0;i<40;i++){v+=(rnd()-.5)*26+(up?4:-4);v=Math.max(20,Math.min(h-20,v));pts.push(v)}
+ x.beginPath();x.moveTo(0,pts[0]);
+ for(i=1;i<pts.length;i++)x.lineTo(w/(pts.length-1)*i,pts[i]);
+ x.strokeStyle=up?'#2fbf71':'#e05a5a';x.lineWidth=4;x.stroke();
+ x.lineTo(w,h);x.lineTo(0,h);x.closePath();
+ x.globalAlpha=.15;x.fillStyle=up?'#2fbf71':'#e05a5a';x.fill();x.globalAlpha=1;
+}
 function doSend(){
  var t=tok(document.getElementById('sdTok').value);
  var a=parseFloat(String(document.getElementById('sdAmt').value).replace(',','.'));
